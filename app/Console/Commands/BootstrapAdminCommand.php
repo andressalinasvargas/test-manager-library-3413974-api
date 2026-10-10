@@ -11,7 +11,7 @@ use Illuminate\Console\Command;
 class BootstrapAdminCommand extends Command
 {
     protected $signature = 'library:bootstrap-admin';
-    protected $description = 'Crea el usuario administrador inicial a partir de las variables de entorno (D-10, T-17)';
+    protected $description = 'Bootstrap initial administrator user from environment variables (D-10, T-17)';
 
     public function handle(UserRepository $users, PasswordHasher $hasher, IdGenerator $ids): int
     {

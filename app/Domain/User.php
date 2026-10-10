@@ -3,8 +3,8 @@
 namespace App\Domain;
 
 /**
- * Agregado User: nombre normalizado (minúsculas y recortado, CA-02.2); rol en (admin, librarian).
- * El rol admin solo lo crea el arranque (spec §1); por API se rechaza (CA-02.3).
+ * User aggregate root: normalized username (trimmed and lowercase, CA-02.2); role in (admin, librarian).
+ * The admin role is only seeded at startup (spec §1); rejected via API (CA-02.3).
  */
 final class User
 {
@@ -28,7 +28,7 @@ final class User
         return $u;
     }
 
-    /** Alta por API: solo `librarian`. Pedir `admin` (o cualquier otro) => 422. */
+    /** Creation via API: only librarian allowed. Requesting admin yields 422. */
     public static function createLibrarian(string $id, string $username, string $passwordHash, string $requestedRole): self
     {
         if ($requestedRole !== self::LIBRARIAN) {

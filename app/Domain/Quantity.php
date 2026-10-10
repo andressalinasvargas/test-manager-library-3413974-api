@@ -2,7 +2,7 @@
 
 namespace App\Domain;
 
-/** Objeto de valor: cantidad entera >= 1 (CA-03.3). */
+/** Value object: integer quantity >= 1 (CA-03.3). */
 final class Quantity
 {
     private function __construct(public readonly int $value) {}

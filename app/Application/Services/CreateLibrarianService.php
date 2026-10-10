@@ -8,10 +8,10 @@ use App\Application\Ports\UserRepository;
 use App\Domain\User;
 
 /**
- * HU-02: Dar de alta bibliotecarios (admin).
- * CA-02.1: rol librarian.
- * CA-02.2: nombre en minúsculas y recortado; único (409 USERNAME_TAKEN).
- * CA-02.3: pedir admin por la API responde 422; clave nunca se devuelve.
+ * HU-02: Register librarian users (admin).
+ * CA-02.1: role librarian.
+ * CA-02.2: username lowercase and trimmed; unique (409 USERNAME_TAKEN).
+ * CA-02.3: requesting admin via API responds 422; password is never returned.
  */
 final class CreateLibrarianService
 {

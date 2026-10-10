@@ -5,8 +5,8 @@ namespace App\Domain;
 use DateTimeImmutable;
 
 /**
- * Agregado Book (architecture.md §3).
- * Invariantes: 0 <= disponibles <= total (RN-1); total >= 1; título y autor no vacíos.
+ * Book aggregate root (architecture.md §3).
+ * Invariants: 0 <= available <= total (RN-1); total >= 1; non-empty title and author.
  */
 final class Book
 {
@@ -23,7 +23,7 @@ final class Book
         private ?DateTimeImmutable $deletedAt,
     ) {}
 
-    /** CA-03.1: los disponibles arrancan iguales al total. */
+    /** CA-03.1: available copies start equal to total copies. */
     public static function create(
         string $id, string $title, string $author, Isbn $isbn,
         string $categoryId, string $categoryName, Quantity $total,
@@ -34,7 +34,7 @@ final class Book
         );
     }
 
-    /** Reconstrucción desde persistencia (sin revalidar reglas de entrada). */
+    /** Reconstruct from persistence without re-validating input rules. */
     public static function restore(
         string $id, string $title, string $author, string $isbn, string $categoryId, string $categoryName,
         int $total, int $available, ?string $coverKey, ?DateTimeImmutable $deletedAt,
@@ -42,7 +42,7 @@ final class Book
         return new self($id, $title, $author, Isbn::of($isbn), $categoryId, $categoryName, $total, $available, $coverKey, $deletedAt);
     }
 
-    /** Descuenta un ejemplar (CA-06.3). Nunca deja disponibles < 0. */
+    /** Withdraw one copy (CA-06.3). Never leaves available < 0. */
     public function withdraw(): void
     {
         if ($this->availableCopies < 1) {
@@ -55,7 +55,7 @@ final class Book
         $this->availableCopies--;
     }
 
-    /** Repone un ejemplar (CA-07.1). Nunca supera el total (CA-07.3). */
+    /** Restock one copy (CA-07.1). Never exceeds total copies (CA-07.3). */
     public function restock(): void
     {
         if ($this->availableCopies >= $this->totalCopies) {
@@ -64,7 +64,7 @@ final class Book
         $this->availableCopies++;
     }
 
-    /** PUT /books/{id}: reemplaza título, autor, categoría y total (CA-03.3). */
+    /** PUT /books/{id}: replace title, author, category and total (CA-03.3). */
     public function replace(string $title, string $author, string $categoryId, string $categoryName, Quantity $total): void
     {
         $newAvailable = $this->availableCopies + ($total->value - $this->totalCopies);
@@ -82,7 +82,7 @@ final class Book
         $this->availableCopies = $newAvailable;
     }
 
-    /** Baja lógica (ADR-003). */
+    /** Soft delete (ADR-003). */
     public function markDeleted(DateTimeImmutable $now): void
     {
         $this->deletedAt = $now;

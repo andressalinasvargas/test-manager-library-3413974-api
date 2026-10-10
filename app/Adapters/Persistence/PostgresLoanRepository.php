@@ -34,7 +34,7 @@ final class PostgresLoanRepository implements LoanRepository
                     'returned_at'   => null,
                 ]);
 
-                // Descontar ejemplar en la base de datos (invariante atómica)
+                // Decrement copy in database (atomic invariant)
                 $updated = DB::table('library.book')
                     ->where('id', $item->bookId)
                     ->where('available_copies', '>=', 1)
@@ -134,7 +134,7 @@ final class PostgresLoanRepository implements LoanRepository
             );
         }
 
-        // Reponer ejemplar en book
+        // Restock copy in book
         DB::table('library.book')
             ->where('id', $bookId)
             ->increment('available_copies', 1);

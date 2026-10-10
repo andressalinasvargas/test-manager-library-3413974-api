@@ -9,26 +9,26 @@ use App\Domain\Member;
 use App\Domain\User;
 use DateTimeImmutable;
 
-/** Puerto de salida (artículo II): lo define la aplicación, lo implementa un adaptador. */
+/** Output port (Article II): defined by application, implemented by an adapter. */
 interface BookRepository
 {
-    /** Solo activos (deleted_at IS NULL). */
+    /** Active only (deleted_at IS NULL). */
     public function getActive(string $id): ?Book;
 
-    /** Incluye dados de baja (para devoluciones de libros históricos). */
+    /** Includes deleted books (for returns of historical books). */
     public function getAny(string $id): ?Book;
 
     /**
-     * Q3: libros activos por lote.
+     * Q3: active books by batch.
      * @param list<string> $ids
      * @return array<string, Book>
      */
     public function getManyActive(array $ids): array;
 
-    /** Lanza ISBN_TAKEN si el índice parcial rechaza el duplicado. */
+    /** Throws ISBN_TAKEN if partial index rejects duplicate. */
     public function add(Book $book): void;
 
-    /** Reemplaza datos editables; ajusta disponibles en la misma diferencia, de forma atómica. */
+    /** Replaces editable data; adjusts available copies atomically. */
     public function replace(Book $book): void;
 
     public function markDeleted(Book $book): void;
@@ -37,6 +37,6 @@ interface BookRepository
 
     public function hasOpenLoans(string $bookId): bool;
 
-    /** Q1: texto parcial en título/autor, categoría, solo activos, orden por título. */
+    /** Q1: partial text search on title/author, category, active only, ordered by title. */
     public function search(?string $q, ?string $categoryId, int $page, int $size): Page;
 }

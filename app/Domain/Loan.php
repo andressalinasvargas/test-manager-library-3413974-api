@@ -5,15 +5,15 @@ namespace App\Domain;
 use DateTimeImmutable;
 
 /**
- * Agregado Loan (architecture.md §3).
- * 1 a 3 líneas; sin libro repetido; vencimiento a 14 días; inmutable salvo devolución.
- * El estado se CALCULA (artículo VII): open | overdue | closed.
+ * Loan aggregate root (architecture.md §3).
+ * 1 to 3 items; no duplicate books; 14 days due date; immutable except for return.
+ * Status is COMPUTED (Article VII): open | overdue | closed.
  */
 final class Loan
 {
     public const MAX_ITEMS = 3;
     public const LOAN_DAYS = 14;
-    /** RN-2: máximo de libros sin devolver por socio. */
+    /** RN-2: maximum active borrowed books per member. */
     public const MAX_OPEN_PER_MEMBER = 3;
 
     /** @param list<LoanItem> $items */
@@ -31,7 +31,7 @@ final class Loan
     }
 
     /**
-     * Loan.AddItem -> Book.Withdraw: descontar el ejemplar y crear la línea son UNA operación (CA-06.3, CA-06.6).
+     * Loan.AddItem -> Book.Withdraw: withdrawing copy and adding line item is a single atomic operation (CA-06.3, CA-06.6).
      */
     public function addItem(string $itemId, Book $book): LoanItem
     {
@@ -59,7 +59,7 @@ final class Loan
         return $item;
     }
 
-    /** Loan.ReturnItem -> Book.Restock una sola vez por línea (CA-07.1, CA-07.2). */
+    /** Loan.ReturnItem -> Book.Restock once per line item (CA-07.1, CA-07.2). */
     public function returnItem(string $itemId, Book $book, DateTimeImmutable $now): LoanItem
     {
         $item = $this->item($itemId);

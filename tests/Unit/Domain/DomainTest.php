@@ -13,8 +13,8 @@ use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Pruebas unitarias de las invariantes innegociables de dominio (T-03, T-04, T-05).
- * El dominio se evalúa sin framework, sin base de datos y sin red (Artículo I).
+ * Unit tests for non-negotiable domain invariants (T-03, T-04, T-05).
+ * Domain is evaluated without framework, without database, and without network (Article I).
  */
 class DomainTest extends TestCase
 {
@@ -83,3 +83,4 @@ class DomainTest extends TestCase
         $book->withdraw();
     }
 }
+

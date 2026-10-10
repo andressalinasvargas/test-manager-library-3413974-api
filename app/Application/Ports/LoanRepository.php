@@ -9,23 +9,23 @@ use App\Domain\Member;
 use App\Domain\User;
 use DateTimeImmutable;
 
-/** Puerto de salida (artículo II): lo define la aplicación, lo implementa un adaptador. */
+/** Output port (Article II): defined by application, implemented by an adapter. */
 interface LoanRepository
 {
     /**
-     * Guarda préstamo + líneas y descuenta ejemplares en la MISMA transacción.
-     * Si otro préstamo se llevó el último ejemplar, lanza BOOK_NOT_AVAILABLE (RNF-2).
+     * Saves loan and items and decrements stock in the SAME transaction.
+     * If another concurrent transaction took the last copy, throws BOOK_NOT_AVAILABLE (RNF-2).
      */
     public function add(Loan $loan): void;
 
     public function get(string $id): ?Loan;
 
     /**
-     * Q7: líneas sin devolver del socio.
+     * Q7: active unreturned items summary for member.
      * @return array{open:int, overdue:int}
      */
     public function openItemsSummary(string $memberId, DateTimeImmutable $now): array;
 
-    /** Marca la devolución y repone 1 ejemplar; si ya estaba devuelta lanza ITEM_ALREADY_RETURNED. */
+    /** Marks return and restocks 1 copy; throws ITEM_ALREADY_RETURNED if already returned. */
     public function returnItem(string $loanId, string $itemId, string $bookId, DateTimeImmutable $returnedAt): void;
 }

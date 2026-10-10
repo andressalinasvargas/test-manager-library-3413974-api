@@ -10,7 +10,7 @@ final class PostgresReportReader implements ReportReader
 {
     /**
      * Q9 / ADR-004:
-     * Una sola consulta agregada. Agrupa por book_id + book_title + category_name congelados.
+     * Single aggregated query grouping by frozen book_id + book_title + category_name.
      */
     public function mostBorrowed(DateTimeImmutable $fromInclusive, DateTimeImmutable $toExclusive): array
     {

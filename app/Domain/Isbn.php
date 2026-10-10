@@ -2,7 +2,7 @@
 
 namespace App\Domain;
 
-/** Objeto de valor: ISBN de exactamente 13 dígitos (CA-03.2). */
+/** Value object: exactly 13-digit ISBN (CA-03.2). */
 final class Isbn
 {
     private function __construct(public readonly string $value) {}

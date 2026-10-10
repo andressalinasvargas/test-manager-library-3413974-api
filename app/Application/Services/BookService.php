@@ -14,7 +14,7 @@ use App\Domain\Isbn;
 use App\Domain\Quantity;
 
 /**
- * HU-03 & HU-04: Gestión y búsqueda de libros.
+ * HU-03 & HU-04: Book catalog management and search.
  */
 final class BookService
 {

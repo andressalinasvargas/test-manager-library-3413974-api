@@ -9,11 +9,11 @@ use App\Domain\Member;
 use App\Domain\User;
 use DateTimeImmutable;
 
-/** Puerto de salida (artículo II): lo define la aplicación, lo implementa un adaptador. */
+/** Output port (Article II): defined by application, implemented by an adapter. */
 interface ReportReader
 {
     /**
-     * Q9 / ADR-004: una fila por book_id + book_title + category_name congelados.
+     * Q9 / ADR-004: one row per frozen book_id + book_title + category_name.
      * @return list<array{book_id:string, book_title:string, category_name:string, times_borrowed:int}>
      */
     public function mostBorrowed(DateTimeImmutable $fromInclusive, DateTimeImmutable $toExclusive): array;

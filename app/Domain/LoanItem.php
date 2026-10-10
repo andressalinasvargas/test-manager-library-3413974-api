@@ -4,7 +4,7 @@ namespace App\Domain;
 
 use DateTimeImmutable;
 
-/** Línea de préstamo: congela título, ISBN y categoría en el instante del préstamo (RN-4). */
+/** Loan line item: freezes title, ISBN, and category at the instant of loan (RN-4). */
 final class LoanItem
 {
     public function __construct(
@@ -21,7 +21,7 @@ final class LoanItem
     public function isReturned(): bool { return $this->returnedAt !== null; }
     public function isOverdue(DateTimeImmutable $now): bool { return ! $this->isReturned() && $this->dueAt < $now; }
 
-    /** CA-07.2: devolver una línea ya devuelta es 409 y nunca suma dos veces. */
+    /** CA-07.2: returning an already returned item yields 409 and never increments stock twice. */
     public function markReturned(DateTimeImmutable $now): void
     {
         if ($this->isReturned()) {

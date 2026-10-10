@@ -16,7 +16,7 @@ use App\Domain\LoanItem;
 use DateTimeImmutable;
 
 /**
- * HU-06, HU-07, HU-08, HU-09: Préstamos y Devoluciones.
+ * HU-06, HU-07, HU-08, HU-09: Loans and returns application service.
  */
 final class LoanService
 {

@@ -9,19 +9,19 @@ use App\Domain\Member;
 use App\Domain\User;
 use DateTimeImmutable;
 
-/** Puerto de salida (artículo II): lo define la aplicación, lo implementa un adaptador. */
+/** Output port (Article II): defined by application, implemented by an adapter. */
 interface MemberRepository
 {
     public function get(string $id): ?Member;
 
-    /** Bloquea la fila del socio dentro de la transacción para serializar sus préstamos. */
+    /** Locks member row inside transaction to serialize loans. */
     public function getForUpdate(string $id): ?Member;
 
-    /** Lanza DOCUMENT_TAKEN si el motor rechaza el duplicado. */
+    /** Throws DOCUMENT_TAKEN if database engine rejects duplicate. */
     public function add(Member $member): void;
 
     public function search(?string $q, int $page, int $size): Page;
 
-    /** Conteo de líneas sin devolver del socio. */
+    /** Count of active unreturned items for member. */
     public function activeLoansCount(string $memberId): int;
 }

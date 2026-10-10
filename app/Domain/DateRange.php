@@ -6,8 +6,8 @@ use DateTimeImmutable;
 use DateTimeZone;
 
 /**
- * Objeto de valor: rango de fechas, ambos extremos inclusive (CA-10.2, api-contract §3.7).
- * Fin anterior al inicio => INVALID_DATE_RANGE.
+ * Value object: date range, inclusive endpoints (CA-10.2, api-contract §3.7).
+ * End date before start date => INVALID_DATE_RANGE.
  */
 final class DateRange
 {

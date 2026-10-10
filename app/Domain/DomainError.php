@@ -3,8 +3,8 @@
 namespace App\Domain;
 
 /**
- * Error de negocio con código estable (api-contract.md §2).
- * El dominio y la aplicación solo lanzan esto; el adaptador HTTP lo traduce a estado + cuerpo único.
+ * Business error with canonical error code (api-contract.md §2).
+ * Domain and application layers only throw this; the HTTP adapter maps it to status and unified JSON body.
  */
 final class DomainError extends \RuntimeException
 {

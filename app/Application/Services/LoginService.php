@@ -9,9 +9,9 @@ use App\Domain\DomainError;
 use App\Domain\User;
 
 /**
- * HU-01: Iniciar sesión.
- * CA-01.1: vigencia 8 horas (28800 s).
- * CA-01.2: con credenciales inválidas responde 401 sin revelar si falló el usuario o la clave.
+ * HU-01: User login.
+ * CA-01.1: 8 hours validity (28800 s).
+ * CA-01.2: invalid credentials returns 401 without revealing whether username or password failed.
  */
 final class LoginService
 {

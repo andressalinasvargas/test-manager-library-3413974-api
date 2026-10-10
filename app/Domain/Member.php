@@ -2,7 +2,7 @@
 
 namespace App\Domain;
 
-/** Agregado Member: nombre y documento obligatorios; documento único (lo garantiza el motor). */
+/** Member aggregate root: required full name and document; unique document enforced by engine. */
 final class Member
 {
     private function __construct(
