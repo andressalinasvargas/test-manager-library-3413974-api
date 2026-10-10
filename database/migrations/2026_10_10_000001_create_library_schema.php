@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
  *
  * Canonical source: docs, data-model.md (§3 physical schema, §4 constraints, §5 FKs, §9 seeds).
  * - Schema `library`, all timestamps `timestamptz`, no column with DEFAULT.
- * - Without created_at/updated_at (data-model §8).
+ * - Audit timestamp columns omitted as mandated by data-model §8.
  * - Rules marked "pending (T-18)" are not created here: managed by their dedicated migration.
  */
 return new class extends Migration
