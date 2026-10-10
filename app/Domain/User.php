@@ -38,7 +38,7 @@ final class User
         return new self($id, self::normalizeUsername($username), $passwordHash, self::LIBRARIAN);
     }
 
-    /** Solo lo usa el arranque con credenciales de entorno (D-10). */
+    /** Only used during bootstrap with environment credentials (D-10). */
     public static function createAdmin(string $id, string $username, string $passwordHash): self
     {
         return new self($id, self::normalizeUsername($username), $passwordHash, self::ADMIN);

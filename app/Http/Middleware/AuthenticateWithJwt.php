@@ -40,7 +40,7 @@ final class AuthenticateWithJwt
             ], 403);
         }
 
-        // Inyectar usuario autenticado
+        // Inject authenticated user context
         $request->attributes->set('auth_user_id', $payload['sub']);
         $request->attributes->set('auth_role', $payload['role']);
 

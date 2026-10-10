@@ -38,13 +38,13 @@ final class DateRange
         return new self($f, $t);
     }
 
-    /** Inicio del día `from` (inclusive). */
+    /** Start of `from` day (inclusive). */
     public function startInclusive(): DateTimeImmutable
     {
         return $this->from;
     }
 
-    /** Inicio del día siguiente a `to` (exclusivo): así `to` queda incluido completo. */
+    /** Start of day after `to` (exclusive): ensures `to` day is fully included. */
     public function endExclusive(): DateTimeImmutable
     {
         return $this->to->modify('+1 day');

@@ -5,11 +5,11 @@ use App\Http\Middleware\AuthenticateWithJwt;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
-    // 3.1 Salud y Autenticación (Públicos)
+    // 3.1 Health and Authentication (Public)
     Route::get('/health', [LibraryApiController::class, 'health']);
     Route::post('/auth/login', [LibraryApiController::class, 'login']);
 
-    // Rutas protegidas solo para rol Admin
+    // Protected routes for Admin role only
     Route::middleware([AuthenticateWithJwt::class.':admin'])->group(function () {
         Route::post('/users', [LibraryApiController::class, 'createUser']);
 
@@ -22,7 +22,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/reports/most-borrowed', [LibraryApiController::class, 'reportMostBorrowed']);
     });
 
-    // Rutas protegidas para usuarios autenticados (admin y librarian)
+    // Protected routes for authenticated users (admin and librarian)
     Route::middleware([AuthenticateWithJwt::class])->group(function () {
         Route::get('/categories', [LibraryApiController::class, 'listCategories']);
 

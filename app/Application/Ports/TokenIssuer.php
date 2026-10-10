@@ -9,7 +9,7 @@ use App\Domain\Member;
 use App\Domain\User;
 use DateTimeImmutable;
 
-/** Puerto de salida (artículo II): lo define la aplicación, lo implementa un adaptador. */
+/** Output port (Article II): defined by the application, implemented by an adapter. */
 interface TokenIssuer
 {
     /** @return array{access_token:string, expires_in:int} */

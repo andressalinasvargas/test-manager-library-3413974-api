@@ -9,11 +9,11 @@ use App\Domain\Member;
 use App\Domain\User;
 use DateTimeImmutable;
 
-/** Puerto de salida (artículo II): lo define la aplicación, lo implementa un adaptador. */
+/** Output port (Article II): defined by the application, implemented by an adapter. */
 interface UserRepository
 {
     public function findByUsername(string $normalizedUsername): ?User;
 
-    /** Lanza USERNAME_TAKEN si el motor rechaza el duplicado. */
+    /** Throws USERNAME_TAKEN if the storage engine rejects a duplicate. */
     public function add(User $user): void;
 }

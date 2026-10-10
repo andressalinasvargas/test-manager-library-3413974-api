@@ -4,12 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
 /**
- * T-02 — Migración inicial: seis tablas, FK, índices únicos y las cinco categorías sembradas.
+ * T-02 — Initial migration: six singular tables, foreign keys, unique indices, and five seeded categories.
  *
- * Fuente única: docs, data-model.md (§3 modelo físico, §4 restricciones, §5 FK, §9 semilla).
- * - Esquema `library`, todas las marcas de tiempo `timestamptz`, ninguna columna con DEFAULT.
- * - Sin created_at/updated_at (data-model §8).
- * - Las reglas marcadas "pendiente (T-18)" NO se crean aquí: las agrega su propia migración.
+ * Canonical source: docs, data-model.md (§3 physical schema, §4 constraints, §5 FKs, §9 seeds).
+ * - Schema `library`, all timestamps `timestamptz`, no column with DEFAULT.
+ * - Without created_at/updated_at (data-model §8).
+ * - Rules marked "pending (T-18)" are not created here: managed by their dedicated migration.
  */
 return new class extends Migration
 {
@@ -18,7 +18,7 @@ return new class extends Migration
         DB::unprepared(<<<'SQL'
         CREATE SCHEMA IF NOT EXISTS library;
 
-        -- category: semilla de solo lectura
+        -- category: read-only seed table
         CREATE TABLE library.category (
             id   uuid         NOT NULL,
             name varchar(120) NOT NULL,
@@ -40,12 +40,12 @@ return new class extends Migration
             CONSTRAINT pk_book PRIMARY KEY (id),
             CONSTRAINT fk_book_category FOREIGN KEY (category_id)
                 REFERENCES library.category (id) ON DELETE RESTRICT ON UPDATE NO ACTION,
-            -- última barrera de concurrencia (ADR-002)
+            -- Concurrency check constraint (ADR-002)
             CONSTRAINT ck_book_available_range CHECK (available_copies >= 0 AND available_copies <= total_copies)
         );
-        -- ISBN único solo entre libros activos (ADR-003)
+        -- Unique ISBN among active books only (ADR-003)
         CREATE UNIQUE INDEX ux_book_isbn_active ON library.book (isbn) WHERE deleted_at IS NULL;
-        -- acceso Q1: búsqueda por categoría y orden por título, solo activos
+        -- Access pattern Q1: category filter and title sort, active only
         CREATE INDEX ix_book_category_title_active ON library.book (category_id, title) WHERE deleted_at IS NULL;
 
         -- member
@@ -57,7 +57,7 @@ return new class extends Migration
         );
         CREATE UNIQUE INDEX ux_member_document_number ON library.member (document_number);
 
-        -- user (palabra reservada: siempre entrecomillada)
+        -- user (reserved keyword: always quoted in PostgreSQL)
         CREATE TABLE library."user" (
             id            uuid         NOT NULL,
             username      varchar(120) NOT NULL,
@@ -88,7 +88,7 @@ return new class extends Migration
             book_id       uuid         NOT NULL,
             book_title    varchar(250) NOT NULL,
             isbn          char(13)     NOT NULL,
-            category_name varchar(120) NOT NULL, -- congelado, sin FK a propósito (ADR-004)
+            category_name varchar(120) NOT NULL, -- Frozen snapshot value, deliberately no FK (ADR-004)
             due_at        timestamptz  NOT NULL,
             returned_at   timestamptz  NULL,
             CONSTRAINT pk_loan_item PRIMARY KEY (id),
@@ -101,7 +101,7 @@ return new class extends Migration
         CREATE INDEX ix_loan_item_book ON library.loan_item (book_id);
         CREATE INDEX ix_loan_item_due_open ON library.loan_item (due_at) WHERE returned_at IS NULL;
 
-        -- §9 semilla: cinco categorías con identificadores fijos
+        -- §9 seed: five initial categories with fixed UUIDs
         INSERT INTO library.category (id, name) VALUES
             ('11111111-1111-4111-8111-111111111111', 'Novela'),
             ('22222222-2222-4222-8222-222222222222', 'Ciencia'),

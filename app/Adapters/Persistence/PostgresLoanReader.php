@@ -106,7 +106,7 @@ final class PostgresLoanReader implements LoanReader
             'i.due_at',
             DB::raw("EXTRACT(DAY FROM ('{$nowStr}'::timestamptz - i.due_at))::int as days_late")
         )
-            ->orderBy('i.due_at', 'asc') // más días de retraso primero
+            ->orderBy('i.due_at', 'asc') // Most days overdue first
             ->offset($offset)
             ->limit($size)
             ->get();

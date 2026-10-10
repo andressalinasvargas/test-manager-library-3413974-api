@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        // Artículo III: Un único punto de composición donde los puertos se encuentran con los adaptadores
+        // Article III: Composition root where ports are bound to adapters
         $this->app->singleton(Clock::class, SystemClock::class);
         $this->app->singleton(IdGenerator::class, UuidGenerator::class);
         $this->app->singleton(TransactionRunner::class, DbTransactionRunner::class);
